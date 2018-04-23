@@ -2,6 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>William Santana</Authors>
+    <Description>web scraping tool of famous manga sites</Description>
+    <PackageLicenseUrl>https://github.com/wmer/MangaScraping/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/wmer/MangaScraping</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/wmer/MangaScraping</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.9.2" />
+    <PackageReference Include="DependencyInjectionResolver" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.11.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Repository\Repository\Repository.csproj" />
+  </ItemGroup>
 
 </Project>
