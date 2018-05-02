@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,17 +8,24 @@
     <PackageProjectUrl>https://github.com/wmer/MangaScraping</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wmer/MangaScraping</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>Mangas Hqs WebScraping MangaHost YesMangas MangasProject MangaLivre HiperCool</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ADO.ORM" Version="1.0.0" />
     <PackageReference Include="AngleSharp" Version="0.9.9.2" />
-    <PackageReference Include="DependencyInjectionResolver" Version="1.0.1" />
+    <PackageReference Include="DependencyInjectionResolver" Version="1.0.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Selenium.WebDriver" Version="3.11.2" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Repository\Repository\Repository.csproj" />
+    <Compile Update="Sources\UnionMangasSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

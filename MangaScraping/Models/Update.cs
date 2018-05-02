@@ -1,4 +1,4 @@
-﻿using Repository.Attributes;
+﻿using ADO.ORM.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
