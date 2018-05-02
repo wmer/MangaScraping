@@ -10,7 +10,6 @@ using System.Text;
 namespace MangaScraping.Managers {
     public class CacheManager {
         private readonly LibraryContext _libraryContext;
-        private readonly CoverCacheHelper _coveCacheHelper;
 
         private static Dictionary<string, object> _cache = new Dictionary<string, object>();
 
@@ -22,10 +21,8 @@ namespace MangaScraping.Managers {
         private readonly object _lockThis6 = new object();
 
         public CacheManager(
-                LibraryContext libraryContext,
-                CoverCacheHelper coveCacheHelper) {
+                LibraryContext libraryContext) {
             _libraryContext = libraryContext;
-            _coveCacheHelper = coveCacheHelper;
         }
 
         public T ModelCache<T>(string url, Func<String, T> method, double timeCache, bool isFinalized, bool withoutCache) where T : ModelBase {
@@ -143,7 +140,7 @@ namespace MangaScraping.Managers {
                                     }
                                 } else {
                                     CoreEventHub.OnProcessingProgress(this, new ProcessingEventArgs(DateTime.Now, $"Criando Cache para {upd.Hq.Title}"));
-                                    upd.Hq.CoverSource = _coveCacheHelper.CreateCache(upd.Hq);
+                                    upd.Hq.CoverSource = upd.Hq.CoverSource;
                                     _libraryContext.Hq.Save(upd.Hq);
                                     var hqId = _libraryContext.Hq.Find().Where(x => x.Link == upd.Hq.Link).Execute().FirstOrDefault()?.Id;
                                     upd.Hq.Id = Convert.ToInt32(hqId);
@@ -227,7 +224,6 @@ namespace MangaScraping.Managers {
                 var hq = new Hq();
                 hq = method.Invoke(url) as Hq;
                 hq.TimeInCache = DateTime.Now;
-                hq.CoverSource = _coveCacheHelper.CreateCache(hq);
                 hq.IsDetailedInformation = true;
                 if (isFinalized) {
                     hq.TimeInCache = new DateTime(2100, 1, 1);

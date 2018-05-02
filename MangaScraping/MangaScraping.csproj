@@ -9,6 +9,7 @@
     <RepositoryUrl>https://github.com/wmer/MangaScraping</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Mangas Hqs WebScraping MangaHost YesMangas MangasProject MangaLivre HiperCool</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
