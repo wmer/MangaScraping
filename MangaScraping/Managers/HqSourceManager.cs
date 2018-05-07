@@ -1,4 +1,5 @@
-﻿using MangaScraping.Models;
+﻿using MangaScraping.Events;
+using MangaScraping.Models;
 using MangaScraping.Sources;
 using System;
 using System.Collections.Generic;
@@ -32,14 +33,18 @@ namespace MangaScraping.Managers {
 
         public virtual IHqSourceManager GetInfo<U>(string url, out U model, double timeCache, bool isFinalized, bool withoutCache) where U : ModelBase {
             lock (_lockThis4) {
+                CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
                 model = _cacheManager.ModelCache<U>(url, GetInfoFromSite<U>, timeCache, isFinalized, withoutCache);
+                CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
                 return this;
             }
         }
 
         public virtual IHqSourceManager GetUpdates(out List<Update> updates, double timeCache) {
             lock (_lockThis3) {
+                CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
                 updates = _cacheManager.UpdatesCache(UpdatePage, _hqSource.GetUpdates, timeCache);
+                CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
                 return this;
             }
         }
@@ -61,6 +66,7 @@ namespace MangaScraping.Managers {
 
         protected virtual IHqSourceManager GetLibrary(string url, out List<Hq> library, double timeCache) {
             lock (_lockThis) {
+                CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
                 var lib = new LibraryPage();
                 lib = _cacheManager.CacheManagement(url, _hqSource.GetLibrary, timeCache);
                 NextPage = lib.NextPage;
@@ -69,6 +75,7 @@ namespace MangaScraping.Managers {
                     Lethers = lib.Letras;
                 }
                 library = lib.Hqs;
+                CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
                 return this;
             }
         }

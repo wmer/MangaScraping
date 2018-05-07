@@ -1,4 +1,5 @@
-﻿using MangaScraping.Models;
+﻿using MangaScraping.Events;
+using MangaScraping.Models;
 using MangaScraping.Sources;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,9 @@ namespace MangaScraping.Managers {
         }
 
         public override IHqSourceManager Search(string hqTitle, out List<Hq> result) {
+            CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
             result = _hqSource.Search(hqTitle);
+            CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
             return this;
         }
     }

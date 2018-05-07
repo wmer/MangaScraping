@@ -58,8 +58,14 @@ namespace MangaScraping.Sources {
             return title;
         }
 
+        protected void OnProcessingStart(ProcessingEventArgs e) =>
+                CoreEventHub.OnProcessingStart(this, e);
+
         protected void OnProcessingProgress(ProcessingEventArgs e) =>
-                CoreEventHub.OnProcessingProgress(this, e);
+               CoreEventHub.OnProcessingProgress(this, e);
+
+        protected void OnProcessingEnd(ProcessingEventArgs e) =>
+               CoreEventHub.OnProcessingEnd(this, e);
 
         protected void OnProcessingProgressError(ProcessingErrorEventArgs e) =>
                 CoreEventHub.OnProcessingProgressError(this, e);

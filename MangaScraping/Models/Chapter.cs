@@ -7,7 +7,6 @@ namespace MangaScraping.Models {
     public class Chapter : ModelBase, IComparable<Chapter>, IEquatable<Chapter> {
         public virtual Hq Hq { get; set; }
         public virtual List<Page> Pages { get; set; }
-        public bool ToDownload { get; set; }
         public bool IsUpdate { get; set; }
         public DateTime Date { get; set; }
 
