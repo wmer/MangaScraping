@@ -17,17 +17,18 @@ namespace MangaScraping.Helpers {
         public SiteHelper(DependencyInjection dependencyInjection) {
             _dependencyInjection = dependencyInjection;
             SupportedSites = new Dictionary<string, Type> {
-                //["ymangas"] = typeof(YesMangasSourceManager),
-                //["yesmangas"] = typeof(YesMangasSourceManager),
+                ["ymangas"] = typeof(YesMangasSourceManager),
+                ["yesmangas"] = typeof(YesMangasSourceManager),
                 ["mangashost"] = typeof(MangaHostSourceManager),
                 ["mangahost"] = typeof(MangaHostSourceManager),
                 ["mangahosts"] = typeof(MangaHostSourceManager),
-                //["unionmangas"] = typeof(UnionMangasSourceManager),
-                //["mangas"] = typeof(MangasProjectSourceManager),
-                //["mangastream"] = typeof(MangasProjectSourceManager),
-                //["leitor"] = typeof(MangasProjectSourceManager),
-                //["mangalivre"] = typeof(MangaLivreSourceManager),
-                //["hiper"] = typeof(HipercoolSourceManager)
+                ["mangahostbr"] = typeof(MangaHostSourceManager),
+                ["unionmangas"] = typeof(UnionMangasSourceManager),
+                ["mangas"] = typeof(MangasProjectSourceManager),
+                ["mangastream"] = typeof(MangasProjectSourceManager),
+                ["leitor"] = typeof(MangasProjectSourceManager),
+                ["mangalivre"] = typeof(MangaLivreSourceManager),
+                ["hiper"] = typeof(HipercoolSourceManager)
             };
         }
 

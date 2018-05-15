@@ -9,11 +9,11 @@
     <RepositoryUrl>https://github.com/wmer/MangaScraping</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Mangas Hqs WebScraping MangaHost YesMangas MangasProject MangaLivre HiperCool</PackageTags>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ADO.ORM" Version="1.0.0" />
+    <PackageReference Include="ADO.ORM" Version="1.0.1" />
     <PackageReference Include="AngleSharp" Version="0.9.9.2" />
     <PackageReference Include="DependencyInjectionResolver" Version="1.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
