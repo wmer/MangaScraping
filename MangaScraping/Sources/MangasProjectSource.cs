@@ -139,9 +139,7 @@ namespace MangaScraping.Sources {
                                     }
                                 }
                             }
-                        } catch (Exception e) {
-
-                        }                     
+                        } catch {}                     
                     }
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Tudo pronto"));
                     return new LibraryPage {

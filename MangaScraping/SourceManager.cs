@@ -14,8 +14,8 @@ namespace MangaScraping {
         private YesMangasSourceManager _yesManager;
         private MangasProjectSourceManager _projectManager;
         private MangaLivreSourceManager _mangaLivreManager;
-        private HipercoolSourceManager _hipercoolManager;
-        private HqUltimateSourceManager _hqUltimateManager;
+        //private HipercoolSourceManager _hipercoolManager;
+        //private HqUltimateSourceManager _hqUltimateManager;
         private Dictionary<SourcesEnum, IHqSourceManager> _sources;
 
         private readonly Object _lockThis = new Object();

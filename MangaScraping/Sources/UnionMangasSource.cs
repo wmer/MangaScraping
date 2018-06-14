@@ -22,7 +22,7 @@ namespace MangaScraping.Sources {
                 try {
                     var hqs = new List<Update>();
                     throw new Exception("Ocorreu um erro ao buscar informaçoes da Hq");
-                } catch (Exception e) {
+                } catch (Exception) {
                     return new List<Update>();
                 }
 
