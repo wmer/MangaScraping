@@ -6,6 +6,7 @@ using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace MangaScraping.Helpers {
@@ -13,9 +14,11 @@ namespace MangaScraping.Helpers {
 
         private Object lockThis = new Object();
         private Object lockThis2 = new Object();
+        private Object lockThis3 = new Object();
 
         public RemoteWebDriver GetDriver(string url) {
             lock (lockThis) {
+                CheckAndCloseIfRunning();
                 var driverService = PhantomJSDriverService.CreateDefaultService(CoreConfiguration.WebDriversLocation);
                 driverService.HideCommandPromptWindow = true;
 #pragma warning disable CS0618 // O tipo ou membro é obsoleto
@@ -30,6 +33,7 @@ namespace MangaScraping.Helpers {
 
         public RemoteWebDriver GetPhantomMobile(string url) {
             lock (lockThis2) {
+                CheckAndCloseIfRunning();
                 var driverService = PhantomJSDriverService.CreateDefaultService(CoreConfiguration.WebDriversLocation);
                 driverService.HideCommandPromptWindow = true;
                 var options = new PhantomJSOptions();
@@ -42,11 +46,19 @@ namespace MangaScraping.Helpers {
                     Url = url
                 };
                 
-
-
                 driver.Navigate();
-
                 return driver;
+            }
+        }
+
+        public void CheckAndCloseIfRunning() {
+            lock (lockThis3) {
+                Process[] pname = Process.GetProcessesByName("PhantomJS");
+                try {
+                    foreach (Process proc in pname) {
+                        proc.Kill();
+                    }
+                } catch { }
             }
         }
     }

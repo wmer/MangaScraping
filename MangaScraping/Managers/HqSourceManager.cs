@@ -50,30 +50,40 @@ namespace MangaScraping.Managers {
         }
 
         public virtual IHqSourceManager GetLibrary(out List<Hq> library, double timeCache) =>
-                                                            GetLibrary(LibraryPage, out library, timeCache);
+                                                            GetLibrary(LibraryPage, out library, out List<string> lethers, timeCache);
+
+        public virtual IHqSourceManager GetLibrary(out List<Hq> library, out List<string> lethers,  double timeCache) =>
+                                                            GetLibrary(LibraryPage, out library, out lethers, timeCache);
+
         public virtual IHqSourceManager GetFinalizedPage(out List<Hq> library, double timeCache) =>
-                                                            GetLibrary(FinalizedPage, out library, timeCache);
+                                                            GetLibrary(FinalizedPage, out library, out List<string> lethers, timeCache);
+
         public virtual IHqSourceManager GetLetherPage(string lether, out List<Hq> library, double timeCache) {
             library = new List<Hq>();
             if (Lethers.ContainsKey(lether)) {
-                GetLibrary(Lethers[lether], out library, timeCache);
+                GetLibrary(Lethers[lether], out library, out List<string> lethers, timeCache);
             }
             return this;
         }
 
         public virtual IHqSourceManager NextLibraryPage(out List<Hq> library, double timeCache) =>
-                                                            GetLibrary(NextPage, out library, timeCache);
+                                                            GetLibrary(NextPage, out library, out List<string> lethers, timeCache);
 
-        protected virtual IHqSourceManager GetLibrary(string url, out List<Hq> library, double timeCache) {
+        protected virtual IHqSourceManager GetLibrary(string url, out List<Hq> library, out List<string> lethers, double timeCache) {
             lock (_lockThis) {
                 CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
                 var lib = new LibraryPage();
+                var lt = new List<string>();
                 lib = _cacheManager.CacheManagement(url, _hqSource.GetLibrary, timeCache);
                 NextPage = lib.NextPage;
                 FinalizedPage = lib.FinalizedPage;
                 if (lib.Letras != null && lib.Letras.Count > 0) {
                     Lethers = lib.Letras;
+                    foreach (var kv in Lethers) {
+                        lt.Add(kv.Key);
+                    }
                 }
+                lethers = lt;
                 library = lib.Hqs;
                 CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
                 return this;

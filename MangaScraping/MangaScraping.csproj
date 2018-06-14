@@ -9,17 +9,17 @@
     <RepositoryUrl>https://github.com/wmer/MangaScraping</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Mangas Hqs WebScraping MangaHost YesMangas MangasProject MangaLivre HiperCool</PackageTags>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ADO.ORM" Version="1.0.1" />
+    <PackageReference Include="ADO.ORM" Version="1.0.3" />
     <PackageReference Include="AngleSharp" Version="0.9.9.2" />
     <PackageReference Include="DependencyInjectionResolver" Version="1.0.2" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.11.2" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
   </ItemGroup>
 
