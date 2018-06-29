@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace MangaScraping.Managers {
-    public abstract class HqSourceManager<T> : IHqSourceManager where T : HqSource {
+    public class HqSourceManager<T> : IHqSourceManager where T : HqSource {
         protected readonly CacheManager _cacheManager;
         protected readonly T _hqSource;
 
@@ -21,7 +21,9 @@ namespace MangaScraping.Managers {
         private readonly object _lockThis3 = new object();
         private readonly object _lockThis4 = new object();
 
-        public HqSourceManager(CacheManager cacheManager, T hqSource) {
+        public HqSourceManager(string homeLink, string libraryLink, CacheManager cacheManager, T hqSource) {
+            UpdatePage = homeLink;
+            LibraryPage = libraryLink;
             _cacheManager = cacheManager;
             _hqSource = hqSource;
         }
@@ -43,7 +45,7 @@ namespace MangaScraping.Managers {
         public virtual IHqSourceManager GetUpdates(out List<Update> updates, double timeCache) {
             lock (_lockThis3) {
                 CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
-                updates = _cacheManager.UpdatesCache(UpdatePage, _hqSource.GetUpdates, timeCache);
+                updates = _cacheManager.CacheManagement(UpdatePage, _hqSource.GetUpdates, timeCache);
                 CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
                 return this;
             }

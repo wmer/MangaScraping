@@ -1,5 +1,6 @@
 ﻿using DependencyInjectionResolver;
 using MangaScraping.Managers;
+using MangaScraping.Sources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +18,18 @@ namespace MangaScraping.Helpers {
         public SiteHelper(DependencyInjection dependencyInjection) {
             _dependencyInjection = dependencyInjection;
             SupportedSites = new Dictionary<string, Type> {
-                ["ymangas"] = typeof(YesMangasSourceManager),
-                ["yesmangas"] = typeof(YesMangasSourceManager),
+                ["ymangas"] = typeof(HqSourceManager<YesMangasSource>),
+                ["yesmangas"] = typeof(HqSourceManager<YesMangasSource>),
                 ["mangashost"] = typeof(MangaHostSourceManager),
                 ["mangahost"] = typeof(MangaHostSourceManager),
                 ["mangahosts"] = typeof(MangaHostSourceManager),
+                ["mangahost-br"] = typeof(MangaHostSourceManager),
                 ["mangahostbr"] = typeof(MangaHostSourceManager),
-                ["unionmangas"] = typeof(UnionMangasSourceManager),
+                ["unionmangas"] = typeof(HqSourceManager<UnionMangasSource>),
                 ["mangas"] = typeof(MangasProjectSourceManager),
                 ["mangastream"] = typeof(MangasProjectSourceManager),
                 ["leitor"] = typeof(MangasProjectSourceManager),
                 ["mangalivre"] = typeof(MangaLivreSourceManager),
-                ["hiper"] = typeof(HipercoolSourceManager)
             };
         }
 

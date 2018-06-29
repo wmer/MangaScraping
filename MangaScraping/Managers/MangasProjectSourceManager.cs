@@ -7,9 +7,7 @@ using MangaScraping.Events;
 
 namespace MangaScraping.Managers {
     public class MangasProjectSourceManager : HqSourceManager<MangasProjectSource> {
-        public MangasProjectSourceManager(CacheManager cacheManager, MangasProjectSource hqSource) : base(cacheManager, hqSource) {
-            UpdatePage = "https://leitor.net";
-            LibraryPage = "https://leitor.net/lista-de-mangas/ordenar-por-nome/todos";
+        public MangasProjectSourceManager(string homeLink, string libraryLink, CacheManager cacheManager, MangasProjectSource hqSource) : base(homeLink, libraryLink, cacheManager, hqSource) {
         }
 
         public override IHqSourceManager Search(string hqTitle, out List<Hq> result) {
