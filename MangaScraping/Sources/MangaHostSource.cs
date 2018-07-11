@@ -54,6 +54,7 @@ namespace MangaScraping.Sources {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Pegando dados da página"));
                     IDocument source = HtmlHelper.GetSourceCodeFromHtml(pageSource);
                     driver.Quit();
+                    BrowserHelper.CloseDriver();
                     var updates = new List<Update>();
                     if (source == null) throw new Exception("Ocorreu um erro ao buscar informaçoes da Hq");
                     var updatesEl = source.QuerySelectorAll(".table-lancamentos tr");
@@ -85,6 +86,7 @@ namespace MangaScraping.Sources {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Tudo pronto"));
                     return updates;
                 } catch (Exception e) {
+                    BrowserHelper.CloseDriver();
                     OnProcessingProgressError(new ProcessingErrorEventArgs(DateTime.Now, url, e));
                     return null;
                 }
@@ -101,6 +103,7 @@ namespace MangaScraping.Sources {
                     IDocument source = HtmlHelper.GetSourceCodeFromHtml(pageSource);
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Pegando dados da página"));
                     driver.Quit();
+                    BrowserHelper.CloseDriver();
 
                     var hqs = new List<Hq>();
                     if (source == null) throw new Exception("Ocorreu um erro ao buscar informaçoes da Hq");
@@ -138,6 +141,7 @@ namespace MangaScraping.Sources {
                         FinalizedPage = finalizedPage, Letras = letherLink
                     };
                 } catch (Exception e) {
+                    BrowserHelper.CloseDriver();
                     OnProcessingProgressError(new ProcessingErrorEventArgs(DateTime.Now, linkPage, e));
                     return null;
                 }

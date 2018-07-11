@@ -7,7 +7,6 @@ namespace MangaScraping.Models {
     public class Chapter : ModelBase, IComparable<Chapter>, IEquatable<Chapter> {
         public virtual Hq Hq { get; set; }
         public virtual List<Page> Pages { get; set; }
-        public bool IsUpdate { get; set; }
         public DateTime Date { get; set; }
 
         public int CompareTo(Chapter other) {
@@ -25,6 +24,11 @@ namespace MangaScraping.Models {
 
         public override int GetHashCode() {
             return 508055234 + EqualityComparer<string>.Default.GetHashCode(Title);
+        }
+
+        public override string ToString() {
+           return $"Titulo: {Title} {Environment.NewLine}" +
+                $"Numero de páginas: {Pages?.Count()} {Environment.NewLine}";
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,24 +9,18 @@
     <RepositoryUrl>https://github.com/wmer/MangaScraping</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Mangas Hqs WebScraping MangaHost YesMangas MangasProject MangaLivre HiperCool</PackageTags>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ADO.ORM" Version="1.0.3" />
+    <PackageReference Include="ADO.ORM" Version="1.0.4" />
     <PackageReference Include="AngleSharp" Version="0.9.9.2" />
-    <PackageReference Include="DependencyInjectionResolver" Version="1.0.2" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="DependencyInjectionResolver" Version="1.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
-    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Sources\UnionMangasSource.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
   </ItemGroup>
 
 </Project>

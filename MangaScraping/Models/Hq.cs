@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MangaScraping.Models {
@@ -7,8 +8,8 @@ namespace MangaScraping.Models {
         public string CoverSource { get; set; }
         public string Author { get; set; }
         public string Synopsis { get; set; }
-        public bool IsFinalized { get; set; }
         public bool IsDetailedInformation { get; set; }
+        public bool IsFinalized { get; set; }
         public virtual List<Chapter> Chapters { get; set; }
 
         public int CompareTo(Hq other) {
@@ -30,6 +31,13 @@ namespace MangaScraping.Models {
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Author);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
             return hashCode;
+        }
+
+        public override string ToString() {
+            return $"Titulo: {Title} {Environment.NewLine}" +
+                $"Autor: {Author} {Environment.NewLine}" +
+                $"Sinopse: {Synopsis} {Environment.NewLine}" +
+                $"Capitulos: {Chapters?.Count()} {Environment.NewLine}";
         }
     }
 }

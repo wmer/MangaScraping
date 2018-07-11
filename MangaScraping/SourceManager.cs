@@ -21,13 +21,13 @@ namespace MangaScraping {
 
         public SourceManager(DependencyInjection dependencyInjection) {
             _mangaHostManager = dependencyInjection
-                                    .DefineDependency<MangaHostSourceManager>(0, "https://mangahost-br.com/")
+                                    .DefineDependency<MangaHostSourceManager>(0, "https://mangahost-br.com")
                                     .DefineDependency<MangaHostSourceManager>(1, "https://mangahost-br.com/mangas")
                                     .Resolve<MangaHostSourceManager>();
 
             _unionManager = dependencyInjection
-                                    .DefineDependency<HqSourceManager<UnionMangasSource>>(0, "http://unionmangas.cc/")
-                                    .DefineDependency<HqSourceManager<UnionMangasSource>>(1, "http://unionmangas.cc/mangas")
+                                    .DefineDependency<HqSourceManager<UnionMangasSource>>(0, "http://unionmangas.site/")
+                                    .DefineDependency<HqSourceManager<UnionMangasSource>>(1, "http://unionmangas.site/mangas")
                                     .Resolve<HqSourceManager<UnionMangasSource>>();
 
             _yesManager = dependencyInjection

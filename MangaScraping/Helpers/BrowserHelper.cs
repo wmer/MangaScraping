@@ -1,4 +1,5 @@
-﻿using MangaScraping.Configuration;
+﻿using DependencyInjectionResolver;
+using MangaScraping.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -10,20 +11,25 @@ using System.Diagnostics;
 using System.Text;
 
 namespace MangaScraping.Helpers {
+#pragma warning disable CS0618 // O tipo ou membro é obsoleto
     public class BrowserHelper {
+        private PhantomJSDriverService _defaultService;
+        private PhantomJSOptions _options;
 
-        private Object lockThis = new Object();
-        private Object lockThis2 = new Object();
-        private Object lockThis3 = new Object();
+        private readonly Object lockThis = new Object();
+        private readonly Object lockThis2 = new Object();
+
+        public BrowserHelper() {
+            _defaultService = PhantomJSDriverService.CreateDefaultService(CoreConfiguration.WebDriversLocation);
+            _defaultService.HideCommandPromptWindow = true;
+            _options = new PhantomJSOptions();
+            _options.AddAdditionalCapability("phantomjs.page.settings.userAgent",
+                                            @"Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0");
+        }
 
         public RemoteWebDriver GetDriver(string url) {
             lock (lockThis) {
-                CheckAndCloseIfRunning();
-                var driverService = PhantomJSDriverService.CreateDefaultService(CoreConfiguration.WebDriversLocation);
-                driverService.HideCommandPromptWindow = true;
-#pragma warning disable CS0618 // O tipo ou membro é obsoleto
-                var driver = new PhantomJSDriver(driverService) {
-#pragma warning restore CS0618 // O tipo ou membro é obsoleto
+                var driver = new PhantomJSDriver(_defaultService) {
                     Url = url
                 };
                 driver.Navigate();
@@ -33,33 +39,23 @@ namespace MangaScraping.Helpers {
 
         public RemoteWebDriver GetPhantomMobile(string url) {
             lock (lockThis2) {
-                CheckAndCloseIfRunning();
-                var driverService = PhantomJSDriverService.CreateDefaultService(CoreConfiguration.WebDriversLocation);
-                driverService.HideCommandPromptWindow = true;
-                var options = new PhantomJSOptions();
-                options.AddAdditionalCapability("phantomjs.page.settings.userAgent",
-               @"Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0");
-               
-#pragma warning disable CS0618 // O tipo ou membro é obsoleto
-                var driver = new PhantomJSDriver(driverService, options) {
-#pragma warning restore CS0618 // O tipo ou membro é obsoleto
+                var driver = new PhantomJSDriver(_defaultService, _options) {
                     Url = url
                 };
-                
                 driver.Navigate();
                 return driver;
             }
         }
 
-        public void CheckAndCloseIfRunning() {
-            lock (lockThis3) {
-                Process[] pname = Process.GetProcessesByName("PhantomJS");
-                try {
-                    foreach (Process proc in pname) {
-                        proc.Kill();
-                    }
-                } catch { }
-            }
+        public void CloseDriver() {
+            Process[] pname = Process.GetProcessesByName("PhantomJS");
+            try {
+                foreach (Process proc in pname) {
+                    proc.Kill();
+                }
+            } catch { }
         }
     }
+
+#pragma warning restore CS0618 // O tipo ou membro é obsoleto
 }

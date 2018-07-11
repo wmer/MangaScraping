@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MangaScraping.Sources {
     public class UnionMangasSource : HqSource {
@@ -34,6 +35,7 @@ namespace MangaScraping.Sources {
                 try {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, "Processando os Mangas..."));
                     var source = HtmlHelper.GetSourceCodeFromUrl(linkPage);
+                    Task.Delay(1000);
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Pegando dados da página"));
                     var hqs = new List<Hq>();
                     if (source == null) throw new Exception("Ocorreu um erro ao buscar informaçoes da Hq");

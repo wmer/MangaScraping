@@ -95,6 +95,7 @@ namespace MangaScraping.Sources {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Pegando dados da página"));
                     IDocument source = HtmlHelper.GetSourceCodeFromHtml(pageSource);
                     driver.Quit();
+                    BrowserHelper.CloseDriver();
                     var hqs = new List<Hq>();
                     if (source == null) throw new Exception("Ocorreu um erro ao buscar informaçoes da Hq");
                     var hqsEl = source.QuerySelectorAll(".content-wraper ul.seriesList li");
@@ -147,6 +148,7 @@ namespace MangaScraping.Sources {
                         FinalizedPage = $"{BaseAdress}{finalizedPage}", Letras = letherLink
                     };
                 } catch (Exception e) {
+                    BrowserHelper.CloseDriver();
                     OnProcessingProgressError(new ProcessingErrorEventArgs(DateTime.Now, linkPage, e));
                     return null;
                 }
@@ -164,6 +166,7 @@ namespace MangaScraping.Sources {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Pegando dados da página"));
                     IDocument source = HtmlHelper.GetSourceCodeFromHtml(pageSource);
                     driver.Quit();
+                    BrowserHelper.CloseDriver();
 
                     var hqInfo = new Hq();
 
@@ -187,6 +190,7 @@ namespace MangaScraping.Sources {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Tudo pronto!"));
                     return hqInfo;
                 } catch (Exception e) {
+                    BrowserHelper.CloseDriver();
                     OnProcessingProgressError(new ProcessingErrorEventArgs(DateTime.Now, link, e));
                     return null;
                 }
@@ -213,6 +217,7 @@ namespace MangaScraping.Sources {
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Pegando dados da página"));
                     if (leitor == null) {
                         driver.Quit();
+                        BrowserHelper.CloseDriver();
                         throw new Exception("Ocorreu um erro ao buscar informaçoes do capitulo");
                     }
 
@@ -228,12 +233,15 @@ namespace MangaScraping.Sources {
                         chapter.Pages = pageList;
                     } else {
                         driver.Quit();
+                        BrowserHelper.CloseDriver();
                         throw new Exception("Ocorreu um erro ao buscar informaçoes do capitulo");
                     }
                     driver.Quit();
+                    BrowserHelper.CloseDriver();
                     OnProcessingProgress(new ProcessingEventArgs(DateTime.Now, $"Tudo pronto"));
                     return chapter;
                 } catch (Exception e) {
+                    BrowserHelper.CloseDriver();
                     OnProcessingProgressError(new ProcessingErrorEventArgs(DateTime.Now, link, e));
                     return null;
                 }

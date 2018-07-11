@@ -13,15 +13,15 @@ namespace MangaScraping.Sources {
         protected BrowserHelper BrowserHelper;
         protected bool UsingIe;
 
-        protected object Lock1 = new object();
-        protected object Lock2 = new object();
-        protected object Lock3 = new object();
-        protected object Lock4 = new object();
-        protected object Lock5 = new object();
-        protected object Lock6 = new object();
-        protected object Lock7 = new object();
-        protected object Lock8 = new object();
-        protected object Lock9 = new object();
+        protected readonly object Lock1 = new object();
+        protected readonly object Lock2 = new object();
+        protected readonly object Lock3 = new object();
+        protected readonly object Lock4 = new object();
+        protected readonly object Lock5 = new object();
+        protected readonly object Lock6 = new object();
+        protected readonly object Lock7 = new object();
+        protected readonly object Lock8 = new object();
+        protected readonly object Lock9 = new object();
 
         protected object LockEvent1 = new object();
         protected object LockEvent2 = new object();

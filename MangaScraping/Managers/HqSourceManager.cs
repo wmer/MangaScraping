@@ -20,8 +20,14 @@ namespace MangaScraping.Managers {
         private readonly object _lockThis2 = new object();
         private readonly object _lockThis3 = new object();
         private readonly object _lockThis4 = new object();
+        private readonly object _lockThis5 = new object();
+        private readonly object _lockThis6 = new object();
 
-        public HqSourceManager(string homeLink, string libraryLink, CacheManager cacheManager, T hqSource) {
+        public HqSourceManager(
+                        string homeLink, 
+                        string libraryLink, 
+                        CacheManager cacheManager, 
+                        T hqSource) {
             UpdatePage = homeLink;
             LibraryPage = libraryLink;
             _cacheManager = cacheManager;
@@ -29,15 +35,19 @@ namespace MangaScraping.Managers {
         }
 
         public virtual IHqSourceManager Search(string hqTitle, out List<Hq> result) {
-            result = new List<Hq>();
-            return this;
+            lock (_lockThis) {
+                result = new List<Hq>();
+                return this;
+            }
         }
 
-        public virtual IHqSourceManager GetInfo<U>(string url, out U model, double timeCache, bool isFinalized, bool withoutCache) where U : ModelBase {
-            lock (_lockThis4) {
+        public virtual IHqSourceManager GetInfo<U>(string url, out U model, double timeCache, bool withoutCache) where U : ModelBase {
+            lock (_lockThis2) {
                 CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
-                model = _cacheManager.ModelCache<U>(url, GetInfoFromSite<U>, timeCache, isFinalized, withoutCache);
+                model = _cacheManager.ModelCache<U>(url, GetInfoFromSite<U>, timeCache, withoutCache);
                 CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
                 return this;
             }
         }
@@ -47,6 +57,8 @@ namespace MangaScraping.Managers {
                 CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
                 updates = _cacheManager.CacheManagement(UpdatePage, _hqSource.GetUpdates, timeCache);
                 CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
                 return this;
             }
         }
@@ -61,39 +73,49 @@ namespace MangaScraping.Managers {
                                                             GetLibrary(FinalizedPage, out library, out List<string> lethers, timeCache);
 
         public virtual IHqSourceManager GetLetherPage(string lether, out List<Hq> library, double timeCache) {
-            library = new List<Hq>();
-            if (Lethers.ContainsKey(lether)) {
-                GetLibrary(Lethers[lether], out library, out List<string> lethers, timeCache);
+            lock (_lockThis4) {
+                library = new List<Hq>();
+                if (Lethers.ContainsKey(lether)) {
+                    GetLibrary(Lethers[lether], out library, out List<string> lethers, timeCache);
+                }
+                return this;
             }
-            return this;
         }
 
         public virtual IHqSourceManager NextLibraryPage(out List<Hq> library, double timeCache) =>
                                                             GetLibrary(NextPage, out library, out List<string> lethers, timeCache);
 
         protected virtual IHqSourceManager GetLibrary(string url, out List<Hq> library, out List<string> lethers, double timeCache) {
-            lock (_lockThis) {
+            lock (_lockThis5) {
                 CoreEventHub.OnProcessingStart(this, new ProcessingEventArgs(DateTime.Now));
                 var lib = new LibraryPage();
                 var lt = new List<string>();
                 lib = _cacheManager.CacheManagement(url, _hqSource.GetLibrary, timeCache);
-                NextPage = lib.NextPage;
-                FinalizedPage = lib.FinalizedPage;
-                if (lib.Letras != null && lib.Letras.Count > 0) {
-                    Lethers = lib.Letras;
-                    foreach (var kv in Lethers) {
-                        lt.Add(kv.Key);
+                if (lib != null) {
+                    NextPage = lib.NextPage;
+                    FinalizedPage = lib.FinalizedPage;
+                    if (lib.Letras != null && lib.Letras.Count > 0) {
+                        Lethers = lib.Letras;
+                        foreach (var kv in Lethers) {
+                            lt.Add(kv.Key);
+                        }
                     }
+                    lethers = lt;
+                    library = lib.Hqs;
+                }else {
+                    lethers = new List<string>();
+                    library = new List<Hq>();
                 }
-                lethers = lt;
-                library = lib.Hqs;
+
                 CoreEventHub.OnProcessingEnd(this, new ProcessingEventArgs(DateTime.Now));
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
                 return this;
             }
         }
 
         private U GetInfoFromSite<U>(string url) where U : ModelBase {
-            lock (_lockThis2) {
+            lock (_lockThis6) {
                 var model = default(U);
                 if (typeof(U).IsAssignableFrom(typeof(Hq))) {
                     model = _hqSource.GetHqInfo(url) as U;
@@ -101,6 +123,9 @@ namespace MangaScraping.Managers {
                 if (typeof(U).IsAssignableFrom(typeof(Chapter))) {
                     model = _hqSource.GetChapterInfo(url) as U;
                 }
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
 
                 return model;
             }
